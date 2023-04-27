@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from "axios";
 
 export default function Home() {
+
+  const [users, setUsers] = useState([])
+
+
+  useEffect(() => {
+    console.log("Checking the Console Loading...")
+  });
+
+  // Verify the Console
+
+
   return (
     <div classsName='container'>
         <div className="py-4">
