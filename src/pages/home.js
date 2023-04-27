@@ -17,8 +17,7 @@ export default function Home() {
     setUsers(result.data);
   };
 
-  // Verify the Console
-
+  // Now it will not work, as backend is not ready to accept the connection, enable CORS in backend
 
   return (
     <div classsName='container'>
