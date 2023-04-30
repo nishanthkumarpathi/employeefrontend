@@ -8,7 +8,7 @@ export default function AddUser() {
                 <h2 className="text-center m-4">Register User</h2>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
-
+                    <input type="text" className="form-control" id="name" placeholder="Enter your Name" />
                 </div>
             </div>
         </div>
