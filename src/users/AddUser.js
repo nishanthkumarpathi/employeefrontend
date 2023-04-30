@@ -21,12 +21,18 @@ export default function AddUser() {
 
     // before testing Install the React Developer tools in the Browser
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+    };
+
   return (
     <div className='Container'>
         <div className='row'>
             {/* Bootstrap Grid System */}
             <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
                 <h2 className="text-center m-4">Register User</h2>
+
+                <form onSubmit={e => onSubmit(e)}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
                     <input 
@@ -62,6 +68,8 @@ export default function AddUser() {
                     onChange={e => onInputChange(e)}
                     />
                 </div>
+
+                </form>
 
                 <button type="submit" className="btn btn-outline-primary">Submit</button>
                 <button type="submit" className="btn btn-outline-danger mx-2">Cancel</button>
