@@ -21,7 +21,12 @@ export default function AddUser() {
                     <input type="text" className="form-control" id="name" placeholder="Enter your Email" />
                 </div>
 
+                <button type="submit" className="btn btn-outline-primary">Submit</button>
+
             </div>
+
+            
+
         </div>
                 
     </div>
