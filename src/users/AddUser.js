@@ -13,6 +13,13 @@ export default function AddUser() {
     // Object Destructuring
     const { name, username, email } = user;
 
+    // Pass the Value into the Input Fields
+    const onInputChange = e => {
+        // Spread Operator to copy the existing values of the user object, and then add the new value
+        setUser({ ...user, [e.target.name]: e.target.value })
+    }
+
+    // before testing Install the React Developer tools in the Browser
 
   return (
     <div className='Container'>
@@ -22,19 +29,38 @@ export default function AddUser() {
                 <h2 className="text-center m-4">Register User</h2>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" name="name" placeholder="Enter your Name" value={name}/>
+                    <input 
+                    type="text" 
+                    className="form-control" 
+                    name="name" 
+                    placeholder="Enter your Name" 
+                    value={name}
+                    onChange={e => onInputChange(e)}
+                    />
                 </div>
 
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">UserName</label>
-                    <input type="text" className="form-control" name="username" placeholder="Enter your User Name" value={username
-                    }/>
+                    <input 
+                    type="text" 
+                    className="form-control" 
+                    name="username" 
+                    placeholder="Enter your User Name" 
+                    value={username}
+                    onChange={e => onInputChange(e)}
+                    />
                 </div>
 
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
-                    <input type="text" className="form-control" name="email" placeholder="Enter your Email" value={email
-                    }/>
+                    <input 
+                    type="text" 
+                    className="form-control" 
+                    name="email" 
+                    placeholder="Enter your Email" 
+                    value={email}
+                    onChange={e => onInputChange(e)}
+                    />
                 </div>
 
                 <button type="submit" className="btn btn-outline-primary">Submit</button>
