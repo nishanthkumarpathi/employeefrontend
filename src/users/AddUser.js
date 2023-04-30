@@ -16,6 +16,11 @@ export default function AddUser() {
                     <input type="text" className="form-control" id="name" placeholder="Enter your User Name" />
                 </div>
 
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input type="text" className="form-control" id="name" placeholder="Enter your Email" />
+                </div>
+
             </div>
         </div>
                 
