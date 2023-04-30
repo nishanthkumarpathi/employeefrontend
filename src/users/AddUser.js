@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import axios from 'axios'
 
 export default function AddUser() {
 
@@ -21,8 +22,9 @@ export default function AddUser() {
 
     // before testing Install the React Developer tools in the Browser
 
-    const onSubmit = (e) => {
+    const onSubmit =async (e) => {
         e.preventDefault();
+        await axios.post("http://localhost:8080/user", user);
     };
 
   return (
