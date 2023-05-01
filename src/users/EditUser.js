@@ -1,9 +1,11 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useParams} from 'react-router-dom'
 
 export default function EditUser() {
+
+    const { id } = useParams();
 
     let navigate = useNavigate();
 
@@ -23,13 +25,22 @@ export default function EditUser() {
         setUser({ ...user, [e.target.name]: e.target.value })
     }
 
+    useEffect(() => {
+        loadUser();
+      }, []);
+
     // before testing Install the React Developer tools in the Browser
 
-    const onSubmit =async (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:8080/user", user);
+        await axios.put(`http://localhost:8080/user/${id}`, user);
         navigate("/");
-    };
+      };
+
+      const loadUser = async () => {
+        const result = await axios.get(`http://localhost:8080/user/${id}`);
+        setUser(result.data);
+      };
 
   return (
     <div className='Container'>
