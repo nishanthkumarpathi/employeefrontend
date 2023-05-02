@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { Link, useParams} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+// import dotenv from 'dotenv';
 
 export default function Home() {
 
   const [users, setUsers] = useState([]);
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
 
   useEffect(() => {
     loadUsers();
   }, []);
 
+
+  // const loadUsers = async () => {
+  //   const result = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${id}`);
+  //   setUsers(result.data);
+  // };
 
   const loadUsers = async () => {
     const result = await axios.get("http://localhost:8080/users");
