@@ -16,19 +16,24 @@ export default function Home() {
 
 
   // const loadUsers = async () => {
-  //   const result = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${id}`);
+  //   const result = await axios.get("http://localhost:8080/users");
   //   setUsers(result.data);
   // };
 
-  const loadUsers = async () => {
-    const result = await axios.get("http://localhost:8080/users");
+    const loadUsers = async () => {
+    const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`);
     setUsers(result.data);
   };
 
   // Now it will not work, as backend is not ready to accept the connection, enable CORS in backend
 
-  const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/user/${id}`);
+  // const deleteUser = async (id) => {
+  //   await axios.delete(`http://localhost:8080/user/${id}`);
+  //   loadUsers();
+  // };
+
+    const deleteUser = async (id) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/user/${id}`);
     loadUsers();
   };
 
