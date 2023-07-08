@@ -47,7 +47,7 @@ jobs:
         run: npm install
 
       - name: Synk Scan
-        uses: synk/actions@master
+        uses: synk/actions/node@master
         continue-on-error: true
         env:
           SYNK_TOKEN: ${{ secrets.SYNK_TOKEN }}
