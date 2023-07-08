@@ -46,8 +46,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Synk Scan
-        uses: synk/actions/node@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
         continue-on-error: true
         env:
-          SYNK_TOKEN: ${{ secrets.SYNK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
