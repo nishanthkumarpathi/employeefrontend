@@ -3,6 +3,7 @@ name: Employee-Frontend-DevSecOps-Workflow
 on:
   push:
     branches: [ development ]
+  workflow_dispatch:
 
 jobs:
   # sonarcloud-scan-job:
