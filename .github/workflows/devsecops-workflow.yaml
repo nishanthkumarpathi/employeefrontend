@@ -95,34 +95,34 @@ jobs:
   #         path: node-audit-results.json
   #       if: always()
 
-  oast-frontend-retirejs:
-    name: SAST-Frontend-Job-NodeJS-RetireJS
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the Code
-        uses: actions/checkout@v3
+  # oast-frontend-retirejs:
+  #   name: SAST-Frontend-Job-NodeJS-RetireJS
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the Code
+  #       uses: actions/checkout@v3
 
-      - name: Setup Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+  #     - name: Setup Node.js 18
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
       
-      - name: Install the Libraries or Node Modules
-        run: npm install
+  #     - name: Install the Libraries or Node Modules
+  #       run: npm install
 
-      - name: Run RetireJS using docker image
-        run: docker run --rm -v $(pwd):/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-report.json --severity high
-        continue-on-error: true
+  #     - name: Run RetireJS using docker image
+  #       run: docker run --rm -v $(pwd):/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-report.json --severity high
+  #       continue-on-error: true
 
-      - name: List the files available
-        run: ls
+  #     - name: List the files available
+  #       run: ls
 
-      - name: Upload the Output as an artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          name: RetireJS Output
-          path: retirejs-report.json
-        if: always()
+  #     - name: Upload the Output as an artifact
+  #       uses: actions/upload-artifact@v3.1.1
+  #       with:
+  #         name: RetireJS Output
+  #         path: retirejs-report.json
+  #       if: always()
 
   oast-snyk:
     name: SecretScanning-NodeJS-Synk
@@ -148,7 +148,7 @@ jobs:
       - name: Run Snyk
         run: |
           snyk auth $SNYK_TOKEN
-          snyk test
+          snyk test --all-projects --org=2e302b9a-61b6-49a2-ad67-eb592b485463
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
