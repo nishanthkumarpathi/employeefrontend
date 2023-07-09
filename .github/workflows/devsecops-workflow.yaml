@@ -101,71 +101,91 @@ jobs:
   #         path: retirejs-report.json
   #       if: always()
 
-  oast-snyk:
-    name: SecretScanning-NodeJS-Synk
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the Code
-        uses: actions/checkout@v3
+  # oast-snyk:
+  #   name: SecretScanning-NodeJS-Synk
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the Code
+  #       uses: actions/checkout@v3
 
-      - name: Setup Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+  #     - name: Setup Node.js 18
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
 
-      - name: Install the Libraries or Node Modules
-        run: npm install
+  #     - name: Install the Libraries or Node Modules
+  #       run: npm install
 
-      - name: Download Snyk CLI and Mark it Executable
-        run: |
-          curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
-          chmod +x ./snyk
-          mv ./snyk /usr/local/bin/ 
+  #     - name: Download Snyk CLI and Mark it Executable
+  #       run: |
+  #         curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+  #         chmod +x ./snyk
+  #         mv ./snyk /usr/local/bin/ 
 
-      - name: Run Snyk
-        run: |
-          snyk auth $SNYK_TOKEN
-          snyk test --all-projects --json > snyk-results.json
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true
+  #     - name: Run Snyk
+  #       run: |
+  #         snyk auth $SNYK_TOKEN
+  #         snyk test --all-projects --json > snyk-results.json
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       continue-on-error: true
 
-      - uses: actions/upload-artifact@v3.1.1
-        with:
-          name: Snyk               
-          path: snyk-results.json
-        if: always()
+  #     - uses: actions/upload-artifact@v3.1.1
+  #       with:
+  #         name: Snyk               
+  #         path: snyk-results.json
+  #       if: always()
 
-  synk-scan-job:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-    # needs: sonarcloud-scan-job
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+        ## Generates a HTML Report
+        ## snyk test --json | snyk-to-html -o results.html
 
-      - name: Setup Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+  # synk-scan-job:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     security-events: write
+  #     actions: read
+  #     contents: read
+  #   # needs: sonarcloud-scan-job
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Setup Node.js 18
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
-          command: test
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/node@master
+  #       continue-on-error: true
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       with:
+  #         args: --sarif-file-output=snyk.sarif
+  #         command: test
       
-      - name: Upload Snyk SARIF results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
-          category: snyk
+  #     - name: Upload Snyk SARIF results
+  #       uses: github/codeql-action/upload-sarif@v2
+  #       with:
+  #         sarif_file: snyk.sarif
+  #         category: snyk
+
+  Deploy-Preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
