@@ -125,7 +125,7 @@ jobs:
       - name: Run Snyk
         run: |
           snyk auth $SNYK_TOKEN
-          snyk test --all-projects --org=2e302b9a-61b6-49a2-ad67-eb592b485463
+          snyk code test --all-projects --org=2e302b9a-61b6-49a2-ad67-eb592b485463 --json-file-output=snyk-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
@@ -158,4 +158,4 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif
-          command: test
+          command: code
