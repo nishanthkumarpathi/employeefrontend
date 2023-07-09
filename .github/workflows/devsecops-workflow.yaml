@@ -71,8 +71,18 @@ jobs:
       - name: Install the Libraries or Node Modules
         run: npm install
 
+      # - name: Perform Node.js Audit and Output to Json file
+      #   run: npm audit --json >> node-audit-results.json
+      #   continue-on-error: true
+
       - name: Perform Node.js Audit and Output to Json file
-        run: npm audit --json >> node-audit-results.json
+        run: |
+          npm audit --json >> node-audit-results.json
+          if [ $? -eq 0 ]; then
+            echo "npm audit completed successfully"
+          else
+            echo "npm audit failed with exit code $?"
+          fi
         continue-on-error: true
 
       - name: List the files available
@@ -112,4 +122,37 @@ jobs:
         with:
           name: RetireJS Output
           path: retirejs-results.json
+        if: always()
+
+  oast-snyk:
+    name: SecretScanning-NodeJS-Synk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - uses: snyk/actions/setup@master
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: "1.13"
+
+      - name: Install Node modules
+        run: npm install
+
+      - name: Run Snyk
+        run: snyk test --json > snyk-results.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      - uses: actions/upload-artifact@v3.1.1
+        with:
+          name: Snyk               
+          path: snyk-results.json
         if: always()
