@@ -136,19 +136,19 @@ jobs:
         with:
           node-version: '18'
 
-      - uses: snyk/actions/setup@master
-
-      - uses: actions/setup-go@v1
-        with:
-          go-version: "1.13"
-
-      - name: Install Node modules
+      - name: Install the Libraries or Node Modules
         run: npm install
+
+      - name: Download Snyk CLI and Mark it Executable
+        run: |
+          curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+          chmod +x ./snyk
+          mv ./snyk /usr/local/bin/ 
 
       - name: Run Snyk
         run: |
           snyk auth $SNYK_TOKEN
-          snyk test --json > snyk-results.json
+          snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
